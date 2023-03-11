@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Basketball Scoreboard</title>
+    <link
+      href="https://fonts.cdnfonts.com/css/cursed-timer-ulil"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="scoreboard-container">
+      <img
+        src="https://thinkkyle.com/wp-content/uploads/2021/05/Basketball.jpg"
+        alt="basketball falling through hoop"
+      />
+      <div class="home-container">
+        <h2>HOME</h2>
+        <div class="score-container" id="home-score-container">
+          <div class="score" id="home-score"></div>
+        </div>
+        <!--score-container>-->
+        <button class="points" id="home-add-one">+1</button>
+        <button class="points" id="home-add-two">+2</button>
+        <button class="points" id="home-add-three">+3</button>
+      </div>
+      <!--home-container-->
+
+      <div class="guest-container">
+        <h2>GUEST</h2>
+        <div class="score-container" id="guest-score-container">
+          <h3 class="score" id="guest-score"></h3>
+        </div>
+        <!--score-container>-->
+        <button class="points" id="guest-add-one">+1</button>
+        <button class="points" id="guest-add-two">+2</button>
+        <button class="points" id="guest-add-three">+3</button>
+      </div>
+      <!--guest-container-->
+      <div>
+        <button class="reset" id="reset-btn">New Game</button>
+      </div>
+    </div>
+    <!--scoreboard-container-->
+
+    <script src="script.js"></script>
+  </body>
+</html>
