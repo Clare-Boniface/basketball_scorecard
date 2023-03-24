@@ -2,42 +2,34 @@ const guestScore = document.getElementById("guest-score");
 const homeScore = document.getElementById("home-score");
 const guestScoreContainer = document.getElementById("guest-score-container");
 const homeScoreContainer = document.getElementById("home-score-container");
-const homeAddOne = document.getElementById("home-add-one");
-const homeAddTwo = document.getElementById("home-add-two");
-const homeAddThree = document.getElementById("home-add-three");
-const guestAddOne = document.getElementById("guest-add-one");
-const guestAddTwo = document.getElementById("guest-add-two");
-const guestAddThree = document.getElementById("guest-add-three");
+const guestText = document.getElementById("guest-text");
+const homeText = document.getElementById("home-text");
+const scoreboardContainer = document.querySelector(".scoreboard-container")
 const resetBtn = document.getElementById("reset-btn");
+const score = document.getElementsByClassName(".score")
 
 let scoreForHome = 0;
 let scoreForGuest = 0;
 
-//---Event Listeners for Points Buttons ---
+//---Event Listener for Points Buttons ---
 
-homeAddOne.addEventListener("click", function () {
-  homeIncrementer(1);
-});
+scoreboardContainer.addEventListener("click", function(e){
+  const target = e.target
+  const homePoints = target.dataset.homeAdd
+  const guestPoints = target.dataset.guestAdd
+  
+  if (homePoints){
+    scoreForHome += +homePoints
+    homeScore.textContent = scoreForHome
+  } 
+  
+  if (guestPoints) {
+    scoreForGuest += +guestPoints
+    guestScore.textContent = scoreForGuest
+} 
+  leadingTeam()
+})
 
-homeAddTwo.addEventListener("click", function () {
-  homeIncrementer(2);
-});
-
-homeAddThree.addEventListener("click", function () {
-  homeIncrementer(3);
-});
-
-guestAddOne.addEventListener("click", function () {
-  guestIncrementer(1);
-});
-
-guestAddTwo.addEventListener("click", function () {
-  guestIncrementer(2);
-});
-
-guestAddThree.addEventListener("click", function () {
-  guestIncrementer(3);
-});
 
 //---New Game and Render Function ---
 
@@ -46,60 +38,37 @@ resetBtn.addEventListener("click", newGame);
 function newGame() {
   scoreForGuest = 0;
   scoreForHome = 0;
-  homeScore.textContent = 0;
-  guestScore.textContent = 0;
-  guestScoreContainer.classList.remove("leading");
-  homeScoreContainer.classList.remove("draw");
-  homeScoreContainer.classList.remove("leading");
-  guestScoreContainer.classList.remove("draw");
+  homeScore.textContent = scoreForHome;
+  guestScore.textContent = scoreForGuest;
+  homeScore.classList.remove("leading", "draw");
+  guestScore.classList.remove("leading","draw");
+  homeText.classList.remove("highlight");
+  guestText.classList.remove("highlight")
 }
 
 function render() {
+  leadingTeam()
   homeScore.textContent = scoreForHome;
   guestScore.textContent = scoreForGuest;
 }
 
-//---Incremental Points Functions ---
-
-function homeIncrementer(points) {
-  scoreForHome += points;
-  render();
-  leadingTeam();
-}
-
-function guestIncrementer(points) {
-  scoreForGuest += points;
-  render();
-  leadingTeam();
-}
 
 //---Leading Team Function ---
 
 function leadingTeam() {
-  if (scoreForHome > scoreForGuest) {
-    redBorderHome();
-  } else if (scoreForHome < scoreForGuest) {
-    redBorderGuest();
-  } else {
-    greenBorder();
+  homeScore.classList.toggle("leading", scoreForHome > scoreForGuest)
+  guestScore.classList.toggle("leading", scoreForGuest > scoreForHome)
+  homeScore.classList.toggle("draw", scoreForHome === scoreForGuest)
+  if(scoreForHome === 0 && scoreForGuest === 0){
+    homeScore.classList.remove("draw")
   }
+  guestScore.classList.toggle("draw", scoreForHome === scoreForGuest)
+  if(scoreForHome === 0 && scoreForGuest === 0){
+    guestScore.classList.remove("draw")
+  }
+  homeText.classList.toggle("highlight", scoreForHome > scoreForGuest)
+  guestText.classList.toggle("highlight", scoreForGuest > scoreForHome)
 }
-
-function redBorderHome() {
-  homeScoreContainer.classList.add("leading");
-  guestScoreContainer.classList.remove("leading");
-  homeScoreContainer.classList.remove("draw");
-  guestScoreContainer.classList.remove("draw");
-}
-
-function redBorderGuest() {
-  homeScoreContainer.classList.remove("leading");
-  guestScoreContainer.classList.add("leading");
-  homeScoreContainer.classList.remove("draw");
-  guestScoreContainer.classList.remove("draw");
-}
-
-function greenBorder() {
-  homeScoreContainer.classList.add("draw");
-  guestScoreContainer.classList.add("draw");
+if (homeScore === 0 && guestScore === 0){
+  homeScore.classList.remove("draw")
 }
